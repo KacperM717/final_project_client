@@ -1,8 +1,8 @@
 import { FC } from "react";
 
-export const Button: FC<{ value: string; icon?: any; onClick: any }> = ({
-  value,
+export const Button: FC<{ icon?: any; onClick: any }> = ({
+  children,
   onClick,
 }) => {
-  return <button onClick={onClick}>{value}</button>;
+  return <button onClick={onClick}>{children}</button>;
 };

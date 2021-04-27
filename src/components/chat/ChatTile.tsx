@@ -1,21 +1,27 @@
-import React from "react";
+import React, { FC } from "react";
 
 type ChatTileProps = {
-  _id: string;
   name: string;
   unread: boolean;
   onClick: any;
+  selected: boolean;
 };
 
-export const ChatTile = ({ _id, name, unread, onClick }: ChatTileProps) => {
+export const ChatTile: FC<ChatTileProps> = ({
+  name,
+  unread,
+  onClick,
+  selected,
+}) => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    onClick(_id);
+    onClick();
   };
 
   return (
     <div onClick={handleClick}>
       <span>{name}</span>
       {unread ? <span>NEW</span> : null}
+      {selected ? <span>SELECTED</span> : null}
     </div>
   );
 };

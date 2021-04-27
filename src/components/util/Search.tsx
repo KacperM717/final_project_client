@@ -3,7 +3,7 @@ import React, { FC, useState, useEffect } from "react";
 export type SearchProps = {
   onTextChange?: (...args: any) => any;
   onTextChangeDelay?: number;
-  onSearch: (...args: any) => any;
+  onSearch?: (...args: any) => any;
 };
 
 const Search: FC<SearchProps> = ({
@@ -26,14 +26,14 @@ const Search: FC<SearchProps> = ({
     setText(e.target.value);
   };
 
-  const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onSearch(text);
+  const handleSearchClick = () => {
+    if (onSearch) onSearch(text);
   };
 
   return (
     <div>
       <input type="search" onChange={handleTextChange} value={text} />
-      <button onClick={handleSearch}>Search</button>
+      {onSearch ? <button onClick={handleSearchClick}>Search</button> : null}
     </div>
   );
 };

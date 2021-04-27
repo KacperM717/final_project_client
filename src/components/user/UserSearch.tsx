@@ -1,8 +1,8 @@
 import { useState } from "react";
 import fetcher from "../../fetcher";
-import { useFriends } from "../../friends.context";
+import { useFriends } from "../../contexts/friends.context";
 import { User } from "../../types";
-import Search from "../search/Search";
+import Search from "../util/Search";
 import { Button } from "../util/Button";
 
 type UserSearchListProps = {
@@ -41,8 +41,8 @@ const UserSearchItem = ({ user }: UserSearchItemProps) => {
     <li>
       <p>
         {name}
-        <Button value={"Add"} onClick={handleAdd} />
-        <Button value={"Block"} onClick={handleBlock} />
+        <Button onClick={handleAdd}>Add</Button>
+        <Button onClick={handleBlock}>Block</Button>
       </p>
     </li>
   );
@@ -65,7 +65,12 @@ export const UserSearch = () => {
     const users: User[] = body;
     const filteredUsers = users.filter(({ _id }) => !friendsIds.includes(_id));
     setUsers(filteredUsers);
-    setMsg(msg);
+    const usersCount = filteredUsers.length;
+    const info =
+      usersCount > 0
+        ? `Found ${usersCount} users`
+        : `No user was found. Maybe you are already friends?`;
+    setMsg(info);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { useFriends } from "../../friends.context";
+import { useFriends } from "../../contexts/friends.context";
 import { Friend } from "../../types";
 import { Button } from "../util/Button";
 
@@ -45,9 +45,9 @@ export const FriendList: FC = () => {
         <p>Pending: </p>
         {pendingList.map((friend) => (
           <FriendListItem key={friend._id} friend={friend}>
-            <Button value={"Accept"} onClick={() => handleAccept(friend)} />
-            <Button value={"Remove"} onClick={() => handleRemove(friend)} />
-            <Button value={"Block"} onClick={() => handleBlock(friend)} />
+            <Button onClick={() => handleAccept(friend)}>Accept</Button>
+            <Button onClick={() => handleRemove(friend)}>Remove</Button>
+            <Button onClick={() => handleBlock(friend)}>Block</Button>
           </FriendListItem>
         ))}
       </div>
@@ -55,8 +55,8 @@ export const FriendList: FC = () => {
         <p>Friends: </p>
         {friendList.map((friend) => (
           <FriendListItem key={friend._id} friend={friend}>
-            <Button value={"Remove"} onClick={() => handleRemove(friend)} />
-            <Button value={"Block"} onClick={() => handleBlock(friend)} />
+            <Button onClick={() => handleRemove(friend)}>Remove</Button>
+            <Button onClick={() => handleBlock(friend)}>Block</Button>
           </FriendListItem>
         ))}
       </div>
@@ -64,7 +64,7 @@ export const FriendList: FC = () => {
         <p>Blocked: </p>
         {blockedList.map((friend) => (
           <FriendListItem key={friend._id} friend={friend}>
-            <Button value={"Remove"} onClick={() => handleRemove(friend)} />
+            <Button onClick={() => handleRemove(friend)}>Remove</Button>
           </FriendListItem>
         ))}
       </div>

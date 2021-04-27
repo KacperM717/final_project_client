@@ -3,6 +3,21 @@ export type User = {
   name: string;
 };
 
+export type Message = {
+  _id: string;
+  createdAt: Date;
+  text: string;
+  author: User;
+};
+
+export type Chat = {
+  _id: string;
+  name: string;
+  members: User[];
+  messages: Message[];
+  closed: boolean;
+};
+
 export type FriendRole = "pending" | "friend" | "blocked";
 
 export type Friend = User & {

@@ -1,6 +1,6 @@
 import React, { useContext, useReducer, useEffect, useCallback } from "react";
-import fetcher from "./fetcher";
-import { AsyncStatus, User } from "./types";
+import fetcher from "../fetcher";
+import { AsyncStatus, User } from "../types";
 
 export type AuthUser = User & { token: string };
 

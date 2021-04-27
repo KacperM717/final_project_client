@@ -1,6 +1,6 @@
 import React from "react";
 import fetcher from "../../fetcher";
-import { useUser } from "../../user.context";
+import { useUser } from "../../contexts/user.context";
 
 export const Logout = () => {
   const [, userDispatch] = useUser();

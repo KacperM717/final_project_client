@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { UserRoute } from "./user";
 import { BaseRoute } from "./base";
-import { UserProvider, useUser } from "../user.context";
-import { socket } from "../socketio";
+import { UserProvider, useUser } from "../contexts/user.context";
+import { socket } from "../sockets";
 
 const Route = () => {
   const [user] = useUser();
