@@ -1,0 +1,248 @@
+.layout {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1.6fr 0.9fr 0.5fr;
+  grid-template-rows: 0.5fr 0.8fr 1.8fr;
+  gap: 10px 10px;
+  grid-template-areas:
+    "user menu list"
+    "video menu list"
+    "video chat list";
+}
+
+.layout > * {
+  overflow: auto;
+  border: 2px solid var(--primary);
+  background-color: var(--secondary);
+  /* box-shadow: 0px -1px 0 1px var(--aux); */
+}
+
+.video {
+  grid-area: video;
+  /* background: pink; */
+}
+
+.list {
+  grid-area: list;
+  /* background: red; */
+  display: flex;
+  flex-direction: column;
+}
+.list_heading {
+  margin: 5%;
+  text-align: center;
+  border-bottom: 1px solid var(--primary);
+}
+.list_content {
+  padding: 1px 5px;
+  overflow-y: auto;
+  /* overflow-x: hidden; */
+  flex-grow: 1;
+}
+.list_item {
+  cursor: pointer;
+}
+
+.chat_list_item {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+  display: flex;
+}
+.chat_list_item > * {
+  flex-grow: 1;
+}
+.unread_dot {
+  text-align: center;
+}
+.chat_list_item.selected {
+  outline: 2px solid var(--punch);
+  font-weight: 600;
+}
+
+.friend_list_sub {
+  border: 1px solid var(--primary);
+  margin-top: 10px;
+}
+
+.friend_list_sub > p {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 0.8rem;
+  text-align: center;
+  border: 1px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+
+.friend_list_item {
+  width: 80%;
+  padding: 0 0.8rem;
+  margin: 0.5rem;
+}
+
+.friend_list_item:hover {
+  outline: 1px dashed var(--aux);
+}
+
+.list_switcher {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: stretch;
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.list_switcher > * {
+  display: block;
+  flex-grow: 1;
+}
+
+.user {
+  grid-area: user;
+  /* background: yellow; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  overflow-y: hidden;
+}
+.user > h1 {
+  font-size: 1rem;
+}
+.user_search_box {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  overflow-x: auto;
+}
+.user_search_item_menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.user_search_item_menu > button {
+  min-width: 25%;
+  height: 100%;
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0.2rem;
+  outline: none;
+  border-radius: 50%;
+}
+
+.menu {
+  grid-area: menu;
+  padding: 0 1rem;
+  /* background: green; */
+}
+
+.create_chat_form {
+}
+
+.create_chat_form > div {
+  margin: 1rem;
+}
+
+.invited_users {
+  margin: 0.5rem;
+}
+
+.invited_users > * {
+  padding: 0.5rem;
+}
+
+.chat {
+  grid-area: chat;
+  /* background: slateblue; */
+}
+
+.chat_box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat_heading {
+  padding: 0 0.5rem;
+  display: block;
+  border-bottom: 2px solid var(--primary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.chat_menu > * {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.chat_heading > div {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat_message_box {
+  flex-grow: 1;
+  padding: 0.5rem;
+  overflow: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.chat_message {
+  padding: 0.3rem;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.chat_message.owner {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.chat_message_text {
+  display: inline-block;
+  border-radius: 1rem;
+  background-color: var(--secondary);
+  color: var(--primary);
+  border: 1px double var(--primary);
+  padding: 0.2rem 0.5rem;
+}
+
+.owner .chat_message_text {
+  background-color: var(--secondary);
+  color: var(--primary);
+  border: 1px double var(--punch);
+  text-align: right;
+}
+
+.chat_message_meta {
+  margin: -5px -20px;
+}
+.chat_message .avatar {
+  transform: scale(0.7);
+}
+.chat_message small {
+  font-size: 0.7rem;
+}
+
+.chat_form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem;
+}
+
+.chat_form input {
+  flex-grow: 1;
+}

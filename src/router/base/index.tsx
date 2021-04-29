@@ -1,12 +1,15 @@
 import React from "react";
 import { Login, Signup } from "../../components/auth";
+import "./base.css";
 
 const Route = () => {
   return (
-    <div>
-      <Login />
-      <Signup />
-    </div>
+    <>
+      <div className={"container flex row"}>
+        <Login />
+        <Signup />
+      </div>
+    </>
   );
 };
 

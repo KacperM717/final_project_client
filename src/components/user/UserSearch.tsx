@@ -2,27 +2,11 @@ import { useState } from "react";
 import fetcher from "../../fetcher";
 import { useFriends } from "../../contexts/friends.context";
 import { User } from "../../types";
-import Search from "../util/Search";
-import { Button } from "../util/Button";
-
-type UserSearchListProps = {
-  users: User[];
-};
+import Search from "../utils/Search";
+import { Avatar } from "../utils/Avatar";
 
 type UserSearchItemProps = {
   user: User;
-};
-
-const UserSearchList = ({ users }: UserSearchListProps) => {
-  return (
-    <div>
-      <ul>
-        {users.map((user) => (
-          <UserSearchItem key={user._id} user={user} />
-        ))}
-      </ul>
-    </div>
-  );
 };
 
 const UserSearchItem = ({ user }: UserSearchItemProps) => {
@@ -38,13 +22,17 @@ const UserSearchItem = ({ user }: UserSearchItemProps) => {
   };
 
   return (
-    <li>
-      <p>
-        {name}
-        <Button onClick={handleAdd}>Add</Button>
-        <Button onClick={handleBlock}>Block</Button>
-      </p>
-    </li>
+    <div>
+      <Avatar avatar={user.avatar} name={user.name} />
+      <div className={"user_search_item_menu"}>
+        <button onClick={handleAdd} title="Add User to friends">
+          ✋
+        </button>
+        <button onClick={handleBlock} title="Block user">
+          ❗
+        </button>
+      </div>
+    </div>
   );
 };
 
@@ -74,10 +62,14 @@ export const UserSearch = () => {
   };
 
   return (
-    <div>
-      <Search onSearch={handleSearch} onTextChange={handleSearch} />
-      <p>{msg}</p>
-      {users.length > 0 ? <UserSearchList users={users} /> : null}
+    <div className={"user_search_box"}>
+      <Search
+        onTextChange={handleSearch}
+        placeholder={"Find new friends here..."}
+      />
+      {users.map((user) => (
+        <UserSearchItem key={user._id} user={user} />
+      ))}
     </div>
   );
 };

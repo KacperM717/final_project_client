@@ -6,6 +6,7 @@ import { Chat, Dispatch, Message, User } from "../types";
 type ChatState = {
   chats: Chat[];
   selected: string | null;
+  unread: string[];
 };
 
 type ChatAction =
@@ -22,7 +23,7 @@ type ChatContextType = [ChatState, Dispatch<ChatAction>] | undefined;
 const chatReducer = (state: ChatState, action: ChatAction) => {
   switch (action.type) {
     case "set":
-      return { chats: action.payload, selected: null };
+      return { chats: action.payload, selected: null, unread: [] };
     case "addChat":
       return {
         ...state,
@@ -59,19 +60,27 @@ const chatReducer = (state: ChatState, action: ChatAction) => {
     case "selectChat":
       return {
         ...state,
+        unread: state.unread.filter(
+          (id) => id !== action.payload && id !== state.selected
+        ),
         selected: action.payload,
       };
     case "addMessage": {
+      const { chatId, message } = action.payload;
       return {
         ...state,
         chats: state.chats.map((chat) =>
-          chat._id === action.payload.chatId
+          chat._id === chatId
             ? {
                 ...chat,
-                messages: [...chat.messages, action.payload.message],
+                messages: [...chat.messages, message],
               }
             : chat
         ),
+        unread:
+          state.selected !== chatId
+            ? [...state.unread, chatId]
+            : [...state.unread],
       };
     }
   }
@@ -82,6 +91,7 @@ export const ChatsProvider = ({ children }: any) => {
   const [state, dispatch] = React.useReducer(chatReducer, {
     chats: [],
     selected: null,
+    unread: [],
   });
   useEffect(() => {
     (async () => {

@@ -2,17 +2,8 @@ import { FC, useState } from "react";
 import { useFriends } from "../../contexts/friends.context";
 import fetcher from "../../fetcher";
 import { Friend, User } from "../../types";
-import Search from "../util/Search";
-import { Button } from "../util/Button";
-
-const ChatUserTile: FC<{ user: User }> = ({ user, children }) => {
-  return (
-    <div>
-      <p>{user.name}</p>
-      <div>{children}</div>
-    </div>
-  );
-};
+import Search from "../utils/Search";
+import { Avatar } from "../utils/Avatar";
 
 export const ChatCreate = () => {
   const [name, setName] = useState("");
@@ -51,53 +42,62 @@ export const ChatCreate = () => {
 
   return (
     <div>
-      <h4>Create Chat</h4>
-      <div>
-        <label htmlFor="name">Name of Chat: </label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label htmlFor="closed">Closed chat: </label>
-        <input
-          type="checkbox"
-          name="closed"
-          id="closed"
-          checked={closed}
-          onChange={() => setClosed((old) => !old)}
-        />
-        <p>Add friends: </p>
+      <div className={"create_chat_heading"}>
+        <h2>Create New Chat</h2>
+      </div>
+      <div className={"create_chat_form"}>
         <div>
-          <Search onTextChange={handleFriendSearch} onTextChangeDelay={200} />
-          <ul>
-            {foundFriends.length > 0
-              ? foundFriends.map((friend) => (
-                  <li key={friend._id}>
-                    {friend.name}{" "}
-                    <Button onClick={() => handleInviteClick(friend)}>
-                      Invite
-                    </Button>
-                  </li>
-                ))
-              : null}
-          </ul>
+          <label htmlFor="name">Name of Chat: </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div>
+          <span>Add friends: </span>
+          <div style={{ display: "inline-block" }}>
+            <Search onTextChange={handleFriendSearch} onTextChangeDelay={200}>
+              {foundFriends.length > 0
+                ? foundFriends.map((friend) => (
+                    <div className={"search_user_item"} key={friend._id}>
+                      <Avatar avatar={friend.avatar}>{friend.name}</Avatar>
+                      <button onClick={() => handleInviteClick(friend)}>
+                        Invite
+                      </button>
+                    </div>
+                  ))
+                : null}
+            </Search>
+          </div>
+        </div>
+        <div>
+          <label htmlFor="closed">Disable invites 🔒: </label>
+          <input
+            type="checkbox"
+            name="closed"
+            id="closed"
+            checked={closed}
+            onChange={() => setClosed((old) => !old)}
+          />
+        </div>
+        <div className={"invited_users"}>
+          {invitedFriends.length > 0
+            ? invitedFriends.map((friend) => (
+                <Avatar avatar={friend.avatar} key={friend._id}>
+                  <button onClick={() => handleDeleteClick(friend._id)}>
+                    Delete
+                  </button>
+                </Avatar>
+              ))
+            : null}
+        </div>
+        <div>
+          <button onClick={() => onChatCreation()}>Create</button>
+          <p>{info}</p>
         </div>
       </div>
-      <div>
-        {invitedFriends.length > 0
-          ? invitedFriends.map((friend) => (
-              <ChatUserTile user={friend} key={friend._id}>
-                <Button onClick={() => handleDeleteClick(friend._id)}>
-                  Delete
-                </Button>
-              </ChatUserTile>
-            ))
-          : null}
-      </div>
-      <Button onClick={() => onChatCreation()}>Create</Button>
-      <p>{info}</p>
     </div>
   );
 };

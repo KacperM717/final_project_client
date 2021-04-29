@@ -53,6 +53,7 @@ export const UserProvider = ({ children }: any) => {
     const data = await res.json();
     if (!res.ok) return dispatch({ type: "set", payload: null });
     dispatch({ type: "set", payload: data.body });
+    console.log(data.body);
   }, []);
 
   useEffect(() => {

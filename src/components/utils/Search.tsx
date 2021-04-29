@@ -1,21 +1,28 @@
 import React, { FC, useState, useEffect } from "react";
+import "./utils.css";
 
 export type SearchProps = {
   onTextChange?: (...args: any) => any;
   onTextChangeDelay?: number;
   onSearch?: (...args: any) => any;
+  placeholder?: string;
 };
 
 const Search: FC<SearchProps> = ({
   onTextChange,
   onTextChangeDelay,
   onSearch,
+  children,
+  placeholder,
 }) => {
   const [text, setText] = useState("");
   const delay = onTextChangeDelay ?? 300;
+  const [hintsOpened, setHintsOpened] = useState(false);
+  console.log(children);
 
   useEffect(() => {
     if (!onTextChange || text === "") return;
+    setHintsOpened(true);
     const emitTextTimeout = setTimeout(() => onTextChange(text), delay);
     return () => {
       clearTimeout(emitTextTimeout);
@@ -32,8 +39,19 @@ const Search: FC<SearchProps> = ({
 
   return (
     <div>
-      <input type="search" onChange={handleTextChange} value={text} />
+      <input
+        type="text"
+        onChange={handleTextChange}
+        value={text}
+        placeholder={placeholder}
+      />
       {onSearch ? <button onClick={handleSearchClick}>Search</button> : null}
+      {hintsOpened && (children as any[])?.length > 0 ? (
+        <>
+          <button onClick={() => setHintsOpened(false)}>x</button>
+          <div className={"search_results"}>{children}</div>
+        </>
+      ) : null}
     </div>
   );
 };

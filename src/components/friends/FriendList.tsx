@@ -1,19 +1,25 @@
 import { FC, useState } from "react";
+import { useChats } from "../../contexts/chats.context";
 import { useFriends } from "../../contexts/friends.context";
+import fetcher from "../../fetcher";
 import { Friend } from "../../types";
-import { Button } from "../util/Button";
+import { Avatar } from "../utils/Avatar";
 
 export const FriendListItem: FC<{ friend: Friend }> = ({
   friend,
   children,
 }) => {
   const [menuOn, setMenuOn] = useState(false);
-  const { name, online } = friend;
+  const { avatar, name, online } = friend;
   return (
-    <div onClick={() => setMenuOn((old) => !old)}>
-      <p>
-        {name} <span>{online ? "ON" : "OFF"}</span>
-      </p>
+    <div
+      className={"list_item friend_list_item"}
+      onClick={() => setMenuOn((old) => !old)}
+    >
+      <Avatar avatar={avatar}>
+        {name}
+        {online ? <>&#128994;</> : null}
+      </Avatar>
       {menuOn ? <div>{children}</div> : null}
     </div>
   );
@@ -21,7 +27,10 @@ export const FriendListItem: FC<{ friend: Friend }> = ({
 
 export const FriendList: FC = () => {
   const [friendsState, , friendsAPI] = useFriends();
+  const [chatState] = useChats();
   const { data } = friendsState;
+  const { chats, selected } = chatState;
+  const chat = selected && chats.find((chat) => chat._id === selected);
 
   // Filter friendlist by roles
   const pendingList = data.filter(({ role }) => role === "pending");
@@ -39,32 +48,85 @@ export const FriendList: FC = () => {
     await friendsAPI.accept(friend);
   };
 
+  const handleAddToChat = async (userId: string) => {
+    await fetcher.POST_JSON("/chat/add", {
+      chatId: chatState.selected,
+      userId,
+    });
+  };
+
   return (
     <div>
-      <div>
-        <p>Pending: </p>
+      <div className={"friend_list_sub"}>
+        <p>Pending </p>
         {pendingList.map((friend) => (
           <FriendListItem key={friend._id} friend={friend}>
-            <Button onClick={() => handleAccept(friend)}>Accept</Button>
-            <Button onClick={() => handleRemove(friend)}>Remove</Button>
-            <Button onClick={() => handleBlock(friend)}>Block</Button>
+            <button
+              onClick={() => handleAccept(friend)}
+              title={"Accept friend"}
+            >
+              ✅
+            </button>
+            <button
+              onClick={() => handleRemove(friend)}
+              title={"Remove from friends"}
+            >
+              🦶
+            </button>
+            <button onClick={() => handleBlock(friend)} title="Block user">
+              ❗
+            </button>
           </FriendListItem>
         ))}
       </div>
-      <div>
-        <p>Friends: </p>
-        {friendList.map((friend) => (
-          <FriendListItem key={friend._id} friend={friend}>
-            <Button onClick={() => handleRemove(friend)}>Remove</Button>
-            <Button onClick={() => handleBlock(friend)}>Block</Button>
-          </FriendListItem>
-        ))}
+      <div className={"friend_list_sub"}>
+        <p>Friends </p>
+        {friendList.map((friend) => {
+          const canInvite =
+            chat &&
+            !chat.closed &&
+            !chat.members.some((member) => member._id === friend._id);
+          return (
+            <FriendListItem key={friend._id} friend={friend}>
+              {friend.online ? (
+                <button
+                  onClick={() => console.log("Init call")}
+                  title="Call Friend"
+                >
+                  📞
+                </button>
+              ) : null}
+              {canInvite ? (
+                <button
+                  onClick={() => handleAddToChat(friend._id)}
+                  title="Add to Current Chat"
+                >
+                  ✋
+                </button>
+              ) : null}
+              <button
+                onClick={() => handleRemove(friend)}
+                title="Remove from friends"
+              >
+                🦶
+              </button>
+              <button onClick={() => handleBlock(friend)} title="Block user">
+                ❗
+              </button>
+            </FriendListItem>
+          );
+        })}
       </div>
-      <div>
-        <p>Blocked: </p>
+      <div className={"friend_list_sub"}>
+        <p>Blocked</p>
         {blockedList.map((friend) => (
           <FriendListItem key={friend._id} friend={friend}>
-            <Button onClick={() => handleRemove(friend)}>Remove</Button>
+            <button
+              onClick={() => handleRemove(friend)}
+              title={"Remove from friends"}
+            >
+              🦶
+            </button>
           </FriendListItem>
         ))}
       </div>

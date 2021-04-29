@@ -1,0 +1,31 @@
+input[type="text"],
+input[type="password"] {
+  font-size: 1rem;
+  padding: 0.3em;
+  box-shadow: 0.1rem 0.1rem;
+}
+
+label {
+  border-bottom: 1px solid var(--secondary);
+  padding: 0.1rem;
+}
+
+.container-form {
+  width: 50%;
+  min-height: 200px;
+  border: 1px solid var(--primary);
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-form > * {
+  margin: 0.2rem 0;
+}
+.container-form > button {
+  margin-top: 2rem;
+}
+
+.container-form > .info {
+  font-size: 1rem;
+}

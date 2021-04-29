@@ -30,7 +30,8 @@ export const Login = () => {
   };
 
   return (
-    <div>
+    <div className={"container-form"}>
+      <h2>Login</h2>
       <label htmlFor="email">
         Email address: <span>{}</span>
       </label>
@@ -50,7 +51,7 @@ export const Login = () => {
         onChange={handlePasswordChange}
       />
       <button onClick={handleLogin}>Log In</button>
-      <p>{info}</p>
+      <p className={"info"}>{info}</p>
     </div>
   );
 };

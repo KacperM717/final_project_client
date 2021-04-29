@@ -1,11 +1,12 @@
 export type User = {
   _id: string;
   name: string;
+  avatar: string;
 };
 
 export type Message = {
   _id: string;
-  createdAt: Date;
+  createdAt: string;
   text: string;
   author: User;
 };

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 type ChatTileProps = {
   name: string;
-  unread: boolean;
+  unread: number;
   onClick: any;
   selected: boolean;
 };
@@ -18,10 +18,12 @@ export const ChatTile: FC<ChatTileProps> = ({
   };
 
   return (
-    <div onClick={handleClick}>
-      <span>{name}</span>
-      {unread ? <span>NEW</span> : null}
-      {selected ? <span>SELECTED</span> : null}
+    <div
+      onClick={handleClick}
+      className={`list_item chat_list_item ${selected ? "selected" : ""}`}
+    >
+      <div>{name}</div>
+      {unread ? <div className={"unread_dot"}>&#128308;{unread}</div> : null}
     </div>
   );
 };

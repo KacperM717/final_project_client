@@ -9,8 +9,9 @@ export const ChatSockets: FC = ({ children }) => {
 
   useEffect(() => {
     socket.on("chat:add", async (chatId: string) => {
-      console.log("on:chat:add");
+      console.log("CHATADD");
       const res = await fetcher.BASE(`/chat/${chatId}`);
+      console.log("response added", res);
       const { msg, body, errors } = await res.json();
       if (!res.ok) return console.log(errors.toString());
       socket.emit("chat:added", body);
@@ -38,12 +39,23 @@ export const ChatSockets: FC = ({ children }) => {
         dispatch({ type: "addMessage", payload: { chatId, message } });
       }
     );
+    socket.on("chat:deleted", (chatId: string) => {
+      console.log(`Chat deleted`);
+      dispatch({ type: "deleteChat", payload: chatId });
+    });
+    socket.on(
+      "chat:message_error",
+      ({ chatId, error }: { chatId: string; error: any }) => {
+        console.log(`Chat ${chatId} errror: `, error);
+      }
+    );
 
     return () => {
       socket.off("chat:add");
       socket.off("chat:user_left");
       socket.off("chat:user_joined");
       socket.off("chat:receive");
+      socket.off("chat:message_error");
     };
   }, [state, dispatch]);
 

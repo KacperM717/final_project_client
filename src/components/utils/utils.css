@@ -1,0 +1,12 @@
+.search_results {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  z-index: 99;
+  border: 1px dashed var(--primary);
+  padding: 0.5rem;
+}
+
+.search_results > * {
+  flex-grow: 0;
+}

@@ -10,5 +10,5 @@ export const Logout = () => {
     return userDispatch({ type: "set", payload: null });
   };
 
-  return <button onClick={handleLogout}>Log Out</button>;
+  return <button onClick={handleLogout}>🚪</button>;
 };

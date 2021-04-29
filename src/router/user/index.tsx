@@ -7,10 +7,12 @@ import { socket } from "../../sockets";
 import { useUser } from "../../contexts/user.context";
 import { ChatCreate } from "../../components/chat/ChatCreate";
 import { ChatList } from "../../components/chat/ChatList";
-import { Button } from "../../components/util/Button";
 import { ChatSockets } from "../../sockets/chat.socket";
 import { FriendList } from "../../components/friends/FriendList";
 import { Chat } from "../../components/chat/Chat";
+
+import "./user.css";
+import { Avatar } from "../../components/utils/Avatar";
 
 type WSRes<B> = {
   ok: boolean;
@@ -28,14 +30,13 @@ export const UserRoute = () => {
   useEffect(() => {
     if (user.user) {
       socket.connect();
-      console.log("user", user.user);
       const payload = {
         _id: user.user._id,
         token: user.user.token,
         name: user.user.name,
       };
       socket.emit("login", payload, (res: WSRes<void>) => {
-        console.log(res.msg);
+        console.log(`WS ON ${res.msg}`);
       });
     }
     return () => {
@@ -49,54 +50,33 @@ export const UserRoute = () => {
       <FriendsProvider>
         <ChatsProvider>
           <ChatSockets>
-            <div>
-              <div>
-                <h1>Header</h1>
-                <h2>
-                  TODO: Fix messages (populate author AND msg received is
-                  undefined on client)
-                </h2>
-                <p>Welcome to GamePub, {user.user?.name}!</p>
-                <UserSearch />
+            <div className={"layout"}>
+              <div className={"user"}>
                 <Logout />
+                <Avatar avatar={user.user!.avatar}>{user.user?.name}</Avatar>
+                <UserSearch />
               </div>
-              <div>
-                <h1>Video/Game</h1>
-                <p>Here is a place for video call or games</p>
+              <div className={"video"}>
+                {/* <p>Here is a place for video call or games</p> */}
               </div>
-              <div>
-                <h1>Menu</h1>
-                <p>
-                  Contextual menu - depends on what is clicked [chat, friend,
-                  call]
-                </p>
+              <div className={"menu"}>
+                <ChatCreate />
               </div>
-              <div>
-                <h1>Chat</h1>
+              <div className={"chat"}>
                 <Chat />
               </div>
-              <div>
-                <h1>Friend/Chat List</h1>
-
-                <div>
-                  {sidebarList === "CHATS" ? (
-                    <>
-                      <h2>Chats</h2>
-                      <ChatList />
-                    </>
-                  ) : (
-                    <>
-                      <h2>Friends</h2>
-                      <FriendList />
-                    </>
-                  )}
+              <div className={"list"}>
+                <p className={"list_heading"}>{sidebarList}</p>
+                <div className={"list_content"}>
+                  {sidebarList === "CHATS" ? <ChatList /> : <FriendList />}
                 </div>
-                <div>
-                  <h2>Switcher</h2>
-                  <Button onClick={() => setSidebarList("FRIENDS")}>
-                    Friends
-                  </Button>
-                  <Button onClick={() => setSidebarList("CHATS")}>Chats</Button>
+                <div className={"list_switcher"}>
+                  <button onClick={() => setSidebarList("CHATS")}>
+                    &#128172;
+                  </button>
+                  <button onClick={() => setSidebarList("FRIENDS")}>
+                    &#129485;
+                  </button>
                 </div>
               </div>
             </div>

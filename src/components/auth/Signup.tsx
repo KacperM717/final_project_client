@@ -14,12 +14,14 @@ export const Signup = () => {
       password,
     };
     const res = await fetcher.POST_JSON("/auth/signup", payload);
-    const data = await res.json();
-    setInfo(data.msg);
+    const { msg, body, errors } = await res.json();
+    if (!res.ok) return setInfo(errors.map((er: any) => er.msg).join(". "));
+    setInfo(msg);
   };
 
   return (
-    <div>
+    <div className={"container-form"}>
+      <h2>Create Account</h2>
       <label htmlFor="name">Name: </label>
       <input
         type="text"
@@ -45,7 +47,7 @@ export const Signup = () => {
         }}
       />
       <button onClick={handleSignup}>Create Account</button>
-      <span>{info}</span>
+      <p className={"info"}>{info}</p>
     </div>
   );
 };
