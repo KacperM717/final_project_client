@@ -7,8 +7,8 @@
   gap: 10px 10px;
   grid-template-areas:
     "user menu list"
-    "video menu list"
-    "video chat list";
+    "game menu list"
+    "game chat list";
 }
 
 .layout > * {
@@ -18,8 +18,8 @@
   /* box-shadow: 0px -1px 0 1px var(--aux); */
 }
 
-.video {
-  grid-area: video;
+.game {
+  grid-area: game;
   /* background: pink; */
 }
 
@@ -77,9 +77,8 @@
 }
 
 .friend_list_item {
-  width: 80%;
-  padding: 0 0.8rem;
-  margin: 0.5rem;
+  padding: 0 0 rem;
+  margin: 0.5rem 0;
 }
 
 .friend_list_item:hover {
@@ -114,11 +113,15 @@
   font-size: 1rem;
 }
 .user_search_box {
+  overflow-y: hidden;
+  height: 100%;
+  flex-grow: 1;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   overflow-x: auto;
 }
+
 .user_search_item_menu {
   display: flex;
   flex-direction: row;
@@ -138,9 +141,6 @@
   grid-area: menu;
   padding: 0 1rem;
   /* background: green; */
-}
-
-.create_chat_form {
 }
 
 .create_chat_form > div {
@@ -198,11 +198,13 @@
 }
 
 .chat_message {
+  font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu";
   padding: 0.3rem;
   font-size: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 100%;
 }
 
 .chat_message.owner {

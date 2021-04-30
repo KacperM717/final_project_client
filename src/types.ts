@@ -21,9 +21,12 @@ export type Chat = {
 
 export type FriendRole = "pending" | "friend" | "blocked";
 
+export type Call = "pending" | "connected" | "connecting" | "none";
+
 export type Friend = User & {
   role: FriendRole;
   online: boolean;
+  call?: Call;
 };
 
 export type AsyncStatus = "loading" | "success" | "error";

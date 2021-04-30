@@ -13,6 +13,8 @@ import { Chat } from "../../components/chat/Chat";
 
 import "./user.css";
 import { Avatar } from "../../components/utils/Avatar";
+import { VideoSockets } from "../../sockets/video.socket";
+import { VideoProvider } from "../../contexts/video.context";
 
 type WSRes<B> = {
   ok: boolean;
@@ -34,6 +36,7 @@ export const UserRoute = () => {
         _id: user.user._id,
         token: user.user.token,
         name: user.user.name,
+        avatar: user.user.avatar,
       };
       socket.emit("login", payload, (res: WSRes<void>) => {
         console.log(`WS ON ${res.msg}`);
@@ -50,36 +53,42 @@ export const UserRoute = () => {
       <FriendsProvider>
         <ChatsProvider>
           <ChatSockets>
-            <div className={"layout"}>
-              <div className={"user"}>
-                <Logout />
-                <Avatar avatar={user.user!.avatar}>{user.user?.name}</Avatar>
-                <UserSearch />
-              </div>
-              <div className={"video"}>
-                {/* <p>Here is a place for video call or games</p> */}
-              </div>
-              <div className={"menu"}>
-                <ChatCreate />
-              </div>
-              <div className={"chat"}>
-                <Chat />
-              </div>
-              <div className={"list"}>
-                <p className={"list_heading"}>{sidebarList}</p>
-                <div className={"list_content"}>
-                  {sidebarList === "CHATS" ? <ChatList /> : <FriendList />}
+            <VideoProvider>
+              <VideoSockets>
+                <div className={"layout"}>
+                  <div className={"user"}>
+                    <Logout />
+                    <Avatar avatar={user.user!.avatar}>
+                      {user.user?.name}
+                    </Avatar>
+                    <UserSearch />
+                  </div>
+                  <div className={"game"}>
+                    {/* <p>Here is a place for video call or games</p> */}
+                  </div>
+                  <div className={"menu"}>
+                    <ChatCreate />
+                  </div>
+                  <div className={"chat"}>
+                    <Chat />
+                  </div>
+                  <div className={"list"}>
+                    <p className={"list_heading"}>{sidebarList}</p>
+                    <div className={"list_content"}>
+                      {sidebarList === "CHATS" ? <ChatList /> : <FriendList />}
+                    </div>
+                    <div className={"list_switcher"}>
+                      <button onClick={() => setSidebarList("CHATS")}>
+                        &#128172;
+                      </button>
+                      <button onClick={() => setSidebarList("FRIENDS")}>
+                        &#129485;
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className={"list_switcher"}>
-                  <button onClick={() => setSidebarList("CHATS")}>
-                    &#128172;
-                  </button>
-                  <button onClick={() => setSidebarList("FRIENDS")}>
-                    &#129485;
-                  </button>
-                </div>
-              </div>
-            </div>
+              </VideoSockets>
+            </VideoProvider>
           </ChatSockets>
         </ChatsProvider>
       </FriendsProvider>
