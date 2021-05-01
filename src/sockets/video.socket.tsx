@@ -30,8 +30,10 @@ export const VideoSockets: FC = ({ children }) => {
       if (peer.makeCall) peer.makeCall(peerId);
     });
     socket.on("video:cancelled", (friendId: string) => {
-      console.log("canceling video call");
       peer.closeCall && peer.closeCall();
+      const friend = friendsState.data.filter(({ _id }) => _id === friendId)[0];
+      friend.call = "none";
+      friendsDistpach({ type: "set", payload: friend });
     });
     // Cancel listeners
     return () => {

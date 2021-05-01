@@ -80,6 +80,7 @@ export const FriendList: FC = () => {
         friend.call = "none";
         socket.emit("video:cancel", friend._id);
         friendsDistpach({ type: "set", payload: friend });
+        peer.closeCall && peer.closeCall();
         break;
       }
       case "none":
