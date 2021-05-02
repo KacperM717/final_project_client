@@ -30,4 +30,6 @@ body {
   --aux: gray;
   --punch: #ff002f;
   --background: black;
+  --asp: 1/3;
+  --rasp: calc(1 / var(--asp));
 }
