@@ -2,9 +2,11 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { Game, useGame } from "../../contexts/game.context";
 import { socket } from "../../sockets";
 import { Dino } from "./Dino";
+import { Typeringo } from "./Typeringo";
 
 const gameDict: { [key: string]: any } = {
   dino: <Dino />,
+  typeringo: <Typeringo />,
 };
 
 export const GameCarousel = () => {

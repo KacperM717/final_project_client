@@ -72,8 +72,11 @@ export const gameList: Game[] = [
     name: "dino",
     description: `Internet issues? Happened to all of us (: Copy of well known Google t-rex game. \n Click to jump and try to avoid as many obstacles as you can in order to win!`,
   },
-  // { id: "jelly", name: "Jelly" },
-  // { id: "cars", name: "Cars" },
+  {
+    id: "typeringo",
+    name: "typeringo",
+    description: `Using keyboard for years? This game is for you! Write fast to achieve highest score among other players`,
+  },
 ];
 
 export const GameProvider = ({ children }: any) => {
